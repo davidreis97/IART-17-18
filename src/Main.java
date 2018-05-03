@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String []args) {
         int minTableSize = Integer.parseInt(args[0]);
@@ -11,5 +13,7 @@ public class Main {
         int generationSize = Integer.parseInt(args[4]);
 
         GeneticAlgorithm genAlg = new GeneticAlgorithm(minTableSize,maxTableSize,maxTableNum,maxGroupSize,minGroupSize,groupNum,generationSize);
+
+        genAlg.start(-1,1000000);
     }
 }
