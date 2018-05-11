@@ -29,7 +29,7 @@ public class Chromosome {
 			return fitness;
 		}
 
-		int[][] fitnessKeeper = new int[maxTableNum][genAlg.attributeNum];
+		int[][] fitnessKeeper = new int[maxTableNum][genAlg.groups[0].attributes.length];
 		int[] tableSizeKeeper = new int[maxTableNum];
 
 		for (int i = 0; i < seats.length; i++) {

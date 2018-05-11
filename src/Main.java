@@ -1,11 +1,14 @@
 
 public class Main {
 	public static void main(String[] args) {
+		final int MAX_ITERATIONS = 1000000;
 
 		if (args.length != 5) {
 			print_usage();
 			System.exit(0);
 		}
+		
+		//TODO: prevent user from inputing bad data
 
 		int minTableSize = Integer.parseInt(args[0]);
 		int maxTableSize = Integer.parseInt(args[1]);
@@ -18,15 +21,26 @@ public class Main {
 		int generationSize = Integer.parseInt(args[4]);
 
 		RandomGroupGenerator rgg = new RandomGroupGenerator(maxGroupSize, minGroupSize, groupNum);
-		
+
 		GeneticAlgorithm genAlg = new GeneticAlgorithm(minTableSize, maxTableSize, maxTableNum, groupNum,
 				generationSize, rgg.groups);
-		
-		/*TODO: simulated annealing & hill climbing algorithms*/
-		//SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm();
-		//HillClimbingAlgorithm hca = new HillClimbingAlgorithm();
 
-		genAlg.start(-1, 1000000);
+		long genAlgStartTime = System.currentTimeMillis();
+		genAlg.start(-1, MAX_ITERATIONS);
+		long genAlgEndTime = System.currentTimeMillis();
+		long genAlgTotalTime = genAlgEndTime - genAlgStartTime;
+		genAlg.printFinalSolution(genAlgTotalTime);
+
+		HillClimbingAlgorithm hca = new HillClimbingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups);
+
+		long hcaAlgStartTime = System.currentTimeMillis();
+		hca.start(MAX_ITERATIONS);
+		long hcaAlgEndTime = System.currentTimeMillis();
+		long hcaAlgTotalTime = hcaAlgEndTime - hcaAlgStartTime;
+		hca.printFinalSolution(hcaAlgTotalTime);
+
+		/* TODO: simulated annealing & hill climbing algorithms */
+		// SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm();
 	}
 
 	static void print_usage() {

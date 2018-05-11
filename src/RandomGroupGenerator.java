@@ -22,6 +22,7 @@ public class RandomGroupGenerator {
 		attributeNum = 5;
 
 		groups = new Group[groupNo];
+		
 		generateRandomGroups();
 
 		saveGroupDetails("groups.txt");
