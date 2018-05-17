@@ -3,19 +3,19 @@ import java.io.*;
 public class RandomGroupGenerator implements Serializable{
 	public Group[] groups;
 
-	transient public int maxGroupSize;
-	transient public int minGroupSize;
-	transient public int groupNo;
+	public int maxGroupSize;
+	public int minGroupSize;
+	public int groupNo;
 
-	transient public int attributeNum;
+	public int attributeNum;
 
-	public RandomGroupGenerator(int argMaxGroupSize, int argMinGroupSize, int argGroupNo){
+	public RandomGroupGenerator(int argMaxGroupSize, int argMinGroupSize, int argGroupNo, int argAttributeNum){
 
 		maxGroupSize = argMaxGroupSize;
 		minGroupSize = argMinGroupSize;
 		groupNo = argGroupNo;
 
-		attributeNum = 1;
+		attributeNum = argAttributeNum;
 
 		groups = new Group[groupNo];
 
@@ -33,8 +33,7 @@ public class RandomGroupGenerator implements Serializable{
 
 	public void save(String filename) {
         try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(filename);
+            FileOutputStream fileOut = new FileOutputStream(filename);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(this);
             out.close();
@@ -51,9 +50,14 @@ public class RandomGroupGenerator implements Serializable{
             RandomGroupGenerator rgg = (RandomGroupGenerator) in.readObject();
             in.close();
             fileIn.close();
+            System.out.println("File " + filename + " loaded");
+            System.out.println("GroupNo: " + rgg.groupNo);
+            System.out.println("MinGroupSize: " + rgg.minGroupSize);
+            System.out.println("MaxGroupSize: " + rgg.maxGroupSize);
             return rgg;
         } catch (Exception i) {
             i.printStackTrace();
+            System.exit(1);
         }
 
         return null;

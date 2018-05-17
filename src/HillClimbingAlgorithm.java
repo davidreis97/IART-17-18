@@ -1,11 +1,12 @@
 public class HillClimbingAlgorithm extends Algorithm {
-	public Chromosome currentSolution;
+    public Chromosome currentSolution;
 
-	public HillClimbingAlgorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, Group[] argGroups) {
+	public HillClimbingAlgorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, Group[] argGroups, int largestJump) {
 		super(argMinTableSize, argMaxTableSize, argMaxTableNum, argGroups.length, argGroups);
 
+		this.largestJump = largestJump;
 		currentSolution = new Chromosome(maxTableNum,groupNo,this);
-		currentSolution.randomize();
+		currentSolution.randomizeValid();
 	}
 
 	public void start(int max_iterations) {

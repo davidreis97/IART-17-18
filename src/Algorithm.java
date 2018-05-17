@@ -8,6 +8,7 @@ public abstract class Algorithm{
     public int maxTableNum;
     public int groupNo;
     public int genSize;
+    public int largestJump;
 
     public Algorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, int argGroupNo, Group[] argGroups) {
         minTableSize = argMinTableSize;
@@ -43,8 +44,8 @@ public abstract class Algorithm{
 
         int tableSize[] = new int[maxTableNum];
 
-        for (int i = 0; i < chromo.seats.length; i++) {
-            tableSize[chromo.seats[i]] += groups[i].numOfPeople;
+        for (int i = 0; i < chromo.getSeats().length; i++) {
+            tableSize[chromo.getSeats()[i]] += groups[i].numOfPeople;
         }
 
         for(int i = 0; i < tables.length; i++){
@@ -55,8 +56,8 @@ public abstract class Algorithm{
             }
         }
 
-        for (int gno = 0; gno < chromo.seats.length; gno++) {
-            int table = chromo.seats[gno];
+        for (int gno = 0; gno < chromo.getSeats().length; gno++) {
+            int table = chromo.getSeats()[gno];
             tables[table] += "Group " + gno + " (" + groups[gno].numOfPeople + ") : " + printArray(groups[gno].attributes) + "\n";
         }
 

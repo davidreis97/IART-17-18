@@ -82,21 +82,21 @@ public class Generation {
 	private Chromosome crossover(Chromosome father1, Chromosome father2) {
 		Chromosome newChromo = new Chromosome(maxTableNum, groupNo, genAlg);
 
-		long bitmask = (long) (Math.random() * Math.pow(2, father1.seats.length)); // UX-Crossover
+		long bitmask = (long) (Math.random() * Math.pow(2, father1.getSeats().length)); // UX-Crossover
 		int mutationPos = -1;
 
 		if (Math.random() < 0.1) { // Mutation
-			mutationPos = (int) (Math.random() * (father1.seats.length - 1));
+			mutationPos = (int) (Math.random() * (father1.getSeats().length - 1));
 		}
 
-		for (int i = 0; i < father1.seats.length; i++) {
+		for (int i = 0; i < father1.getSeats().length; i++) {
 			if (mutationPos == i) {
-				newChromo.seats[i] = (int) (Math.random() * maxTableNum);
+				newChromo.getSeats()[i] = (int) (Math.random() * maxTableNum);
 			} else {
 				if (getBit(bitmask, i) == 0) {
-					newChromo.seats[i] = father1.seats[i];
+					newChromo.getSeats()[i] = father1.getSeats()[i];
 				} else {
-					newChromo.seats[i] = father2.seats[i];
+					newChromo.getSeats()[i] = father2.getSeats()[i];
 				}
 			}
 		}

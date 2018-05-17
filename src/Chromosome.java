@@ -3,7 +3,16 @@ import java.util.HashMap;
 
 public class Chromosome {
 
-	public int[] seats;
+    public int[] getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int[] seats) {
+        fitness = 1;
+        this.seats = seats;
+    }
+
+    private int[] seats;
 
 	public int maxTableNum;
 
@@ -17,7 +26,7 @@ public class Chromosome {
 		this.maxTableNum = maxTableNum;
 		this.alg = alg;
 
-		fitness = 0;
+		fitness = 1;
 	}
 
 	public void randomize() {
@@ -26,8 +35,14 @@ public class Chromosome {
 		}
 	}
 
+	public void randomizeValid(){
+	    do {
+            randomize();
+        }while(getFitness() <= 1);
+    }
+
 	public int getFitness() {
-		if (fitness != 0) {
+		if (fitness > 1) {
 			return fitness;
 		}
 
@@ -57,7 +72,7 @@ public class Chromosome {
 		if (fitness > 0) {
 			return fitness;
 		} else {
-			return (fitness = 0);
+			return (fitness = 1);
 		}
 	}
 
@@ -65,7 +80,7 @@ public class Chromosome {
     public Chromosome getImprovedNeighbour() {
 	    Chromosome neighbour;
 
-	    int max_tries = 100000;
+	    int max_tries = 10000000;
 
 	    do{
             neighbour = getNeighbour();
@@ -81,11 +96,14 @@ public class Chromosome {
 
     public Chromosome getNeighbour(){
         Chromosome neighbour = new Chromosome(maxTableNum, seats.length, alg);
-        neighbour.seats = this.seats;
+        neighbour.setSeats(this.seats);
 
-        int movingGroup = (int) (Math.random() * seats.length);
+        int moves = (int) ((Math.random() * (alg.largestJump-1)) + 1);
 
-        neighbour.seats[movingGroup] = (int) (Math.random() * (maxTableNum));
+        for(;moves > 0;moves--){
+            int movingGroup = (int) (Math.random() * seats.length);
+            neighbour.seats[movingGroup] = (int) (Math.random() * (maxTableNum));
+        }
 
         return neighbour;
     }
