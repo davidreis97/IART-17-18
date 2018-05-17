@@ -20,6 +20,17 @@ public class Chromosome {
 
 	public Algorithm alg;
 
+	public Chromosome(Chromosome oldChromosome){
+		this.alg=oldChromosome.alg;
+		this.maxTableNum=oldChromosome.maxTableNum;
+		this.fitness=oldChromosome.fitness;
+
+		this.seats= new int [oldChromosome.seats.length];
+		for(int i=0;i<oldChromosome.seats.length; i++){
+			this.seats[i]=oldChromosome.seats[i];
+		}
+	}
+
 	public Chromosome(int maxTableNum, int groupNo, Algorithm alg) {
 		seats = new int[groupNo];
 

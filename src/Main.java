@@ -79,8 +79,25 @@ public class Main {
 	}
 
 	public void simulAnneal(Scanner keyboard){
-        //TODO
-        System.out.println("TODO");
+		System.out.println("Minimum table size: ");
+		int minTableSize = keyboard.nextInt();
+		System.out.println("Maximum table size: ");
+		int maxTableSize = keyboard.nextInt();
+		System.out.println("Maximum number of tables: ");
+		int maxTableNum = keyboard.nextInt();
+		System.out.println("Starting temperature: ");
+		double startingTemperature = keyboard.nextDouble();
+		System.out.println("Cooling Rate: ");
+		double coolingRate = keyboard.nextDouble();
+
+		rgg = RandomGroupGenerator.load("groups.ser");
+		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups);
+
+		long saaAlgStartTime = System.currentTimeMillis();
+		saa.start(startingTemperature, coolingRate);
+		long saaAlgEndTime = System.currentTimeMillis();
+		long saaAlgTotalTime = saaAlgEndTime- saaAlgStartTime;
+		saa.printFinalSolution(saaAlgTotalTime);
     }
 
 	public void geneticAlg(Scanner keyboard){
@@ -163,8 +180,8 @@ public class Main {
         int g1affinity = g1.getAffinityWith(table1);
         int g2affinity = g2.getAffinityWith(table1);
         int g3affinity = g3.getAffinityWith(table2);
-        int g4affinity = g4.getAffinityWith(table3);
-
+        int g4affinity = g4.getAffinityWith(table3);       
+        
         System.out.println("Affinity: " + g1affinity + g2affinity + g3affinity + g4affinity);
     }
 }
