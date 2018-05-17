@@ -1,39 +1,41 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group {
-	public int[] attributes;
+public class Group implements Serializable {
+	public double[] attributes;
 	public int numOfPeople;
 
 	public Group(int numOfPeople, int attributeNum) {
 
 		this.numOfPeople = numOfPeople;
-		attributes = new int[attributeNum];
+		attributes = new double[attributeNum];
 
 		for (int i = 0; i < attributes.length; i++) {
-			attributes[i] = ((int) (Math.random() * attributeNum * 2)) - attributeNum; // Randomly between -attributeNum or
-																						// attributeNum
-
-			for (int j = 0; j < attributes.length; j++) {
-				if (attributes[i] == attributes[j] && i != j) {
-					i--;
-					break;
-				}
-			}
+			attributes[i] = (Math.random() * 2) - 1;
 		}
 	}
 	
 	public int getAffinityWith(ArrayList<Group> groups) {
-		int totalAfinity = 0;
+	    if(groups.size() <= 1){
+	        return 0;
+        }
+
+		double totalAffinity = 0;
 		for (Group g : groups) {
-			for (int i = 0; i < this.attributes.length; i++) {
-				for (int j = 0; i < g.attributes.length; i++) {
-					if (this.attributes[i] == g.attributes[j]) {
-						totalAfinity++;
-						break;
-					}
-				}
+			if(g != this){ //Prevent group from comparing to itself
+				totalAffinity += getAffinityWithGroup(g);
 			}
 		}
-		return totalAfinity;
+
+		return (int)totalAffinity;
+	}
+
+	public double getAffinityWithGroup(Group g){
+		double totalAffinity = 0;
+		for (int i = 0; i < this.attributes.length; i++) {
+			totalAffinity += 10 / (Math.max(0.01,Math.abs(this.attributes[i] - g.attributes[i])));
+		}
+
+		return totalAffinity;
 	}
 }

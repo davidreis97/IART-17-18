@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Chromosome {
 
 	public int[] seats;
@@ -6,13 +9,13 @@ public class Chromosome {
 
 	private int fitness;
 
-	public GeneticAlgorithm genAlg;
+	public Algorithm alg;
 
-	public Chromosome(int maxTableNum, int groupNo, GeneticAlgorithm genAlg) {
+	public Chromosome(int maxTableNum, int groupNo, Algorithm alg) {
 		seats = new int[groupNo];
 
 		this.maxTableNum = maxTableNum;
-		this.genAlg = genAlg;
+		this.alg = alg;
 
 		fitness = 0;
 	}
@@ -24,30 +27,32 @@ public class Chromosome {
 	}
 
 	public int getFitness() {
-
 		if (fitness != 0) {
 			return fitness;
 		}
 
-		int[][] fitnessKeeper = new int[maxTableNum][genAlg.groups[0].attributes.length];
-		int[] tableSizeKeeper = new int[maxTableNum];
+		HashMap<Integer,ArrayList<Group>> tables = new HashMap<>();
+		int tableSize[] = new int[maxTableNum];
 
 		for (int i = 0; i < seats.length; i++) {
-			for (int j = 0; j < fitnessKeeper[seats[i]].length; j++) {
-				fitnessKeeper[seats[i]][j] += genAlg.groups[i].attributes[j];
-			}
-			tableSizeKeeper[seats[i]] += genAlg.groups[i].numOfPeople;
+			tables.computeIfAbsent(seats[i], k -> new ArrayList<>());
+
+			tables.get(seats[i]).add(alg.groups[i]);
+			tableSize[seats[i]] += alg.groups[i].numOfPeople;
 		}
 
-		for (int i = 0; i < fitnessKeeper.length; i++) {
-			for (int j = 0; j < fitnessKeeper[i].length; j++) {
-				fitness += Math.abs(fitnessKeeper[i][j]);
-			}
-			if (tableSizeKeeper[i] > genAlg.maxTableSize) {
-				fitness -= (tableSizeKeeper[i] - genAlg.maxTableSize) * 10; // TODO - This value needs testing and
-																			// adjusting
+		for (ArrayList<Group> al : tables.values()) {
+			for(Group g: al){
+			    double affinity = g.getAffinityWith(al);
+				fitness += affinity;
 			}
 		}
+
+		for(int a: tableSize){
+		    if(a > alg.maxTableSize){
+		        return (fitness = 1);
+            }
+        }
 
 		if (fitness > 0) {
 			return fitness;
@@ -55,4 +60,33 @@ public class Chromosome {
 			return (fitness = 0);
 		}
 	}
+
+	//For Hill Climbing Algorithm
+    public Chromosome getImprovedNeighbour() {
+	    Chromosome neighbour;
+
+	    int max_tries = 100000;
+
+	    do{
+            neighbour = getNeighbour();
+            if(max_tries <= 0){
+	            System.out.println("Could not find better solution");
+	            return null;
+            }
+            max_tries--;
+        }while(neighbour.getFitness() <= getFitness());
+
+	    return neighbour;
+    }
+
+    public Chromosome getNeighbour(){
+        Chromosome neighbour = new Chromosome(maxTableNum, seats.length, alg);
+        neighbour.seats = this.seats;
+
+        int movingGroup = (int) (Math.random() * seats.length);
+
+        neighbour.seats[movingGroup] = (int) (Math.random() * (maxTableNum));
+
+        return neighbour;
+    }
 }

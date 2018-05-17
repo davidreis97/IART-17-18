@@ -8,8 +8,8 @@ public class Generation {
 	private int groupNo;
 	private int genSize;
 
-	private long totalFitness;
-	private long avgFitness;
+	private int totalFitness;
+	private int avgFitness;
 	public Chromosome bestChromo;
 
 	private GeneticAlgorithm genAlg;
@@ -36,7 +36,7 @@ public class Generation {
 		}
 	}
 
-	public long getTotalFitness() {
+	public int getTotalFitness() {
 		if (totalFitness != 0) {
 			return totalFitness;
 		}
@@ -123,7 +123,7 @@ public class Generation {
 		return (n >> k) & 1;
 	}
 
-	public long getAvgFitness() {
+	public int getAvgFitness() {
 		if (avgFitness != 0) {
 			return avgFitness;
 		} else {
