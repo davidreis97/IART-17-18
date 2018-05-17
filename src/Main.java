@@ -4,6 +4,10 @@ public class Main {
 	public static void main(String[] args) {
 		final int MAX_ITERATIONS = 1000;
 
+		//Used by the Simulated Annealing Algorithm
+		final double STARTING_TEMPERATURE = 100000;
+		final double COOLING_RATE = 0.003;
+
 		if (args.length != 5) {
 			print_usage();
 			System.exit(0);
@@ -64,8 +68,15 @@ public class Main {
 		long hcaAlgTotalTime = hcaAlgEndTime - hcaAlgStartTime;
 		hca.printFinalSolution(hcaAlgTotalTime);
 
-		/* TODO: simulated annealing & hill climbing algorithms */
-		// SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm();
+		System.out.println("----------------------------------Simulated Annealing--------------------------------");
+		rgg = RandomGroupGenerator.load("groups.ser");
+		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups);
+
+		long saaAlgStartTime = System.currentTimeMillis();
+		saa.start(STARTING_TEMPERATURE, COOLING_RATE);
+		long saaAlgEndTime = System.currentTimeMillis();
+		long saaAlgTotalTime = saaAlgEndTime- saaAlgStartTime;
+		saa.printFinalSolution(saaAlgTotalTime);
 	}
 
 	static void print_usage() {
