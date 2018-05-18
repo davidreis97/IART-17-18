@@ -92,7 +92,7 @@ public class Main {
         System.out.println("Maximum distance to neighbour");
         int maxDist = keyboard.nextInt();
 
-		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups);
+		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups, maxDist);
 
 		long saaAlgStartTime = System.currentTimeMillis();
 		saa.start(startingTemperature, coolingRate);
