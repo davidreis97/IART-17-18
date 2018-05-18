@@ -85,10 +85,12 @@ public class Main {
 		int maxTableSize = keyboard.nextInt();
 		System.out.println("Maximum number of tables: ");
 		int maxTableNum = keyboard.nextInt();
-		System.out.println("Starting temperature: ");
+		System.out.println("Starting temperature (Suggested 100000): ");
 		double startingTemperature = keyboard.nextDouble();
-		System.out.println("Cooling Rate: ");
+		System.out.println("Cooling Rate (Suggested 0,003): ");
 		double coolingRate = keyboard.nextDouble();
+        System.out.println("Maximum distance to neighbour");
+        int maxDist = keyboard.nextInt();
 
 		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups);
 

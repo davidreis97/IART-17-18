@@ -8,18 +8,17 @@ import java.util.Random;
 *
 * */
 
-
-
 public class SimulatedAnnealingAlgorithm  extends Algorithm{
     public Chromosome bestSolution;
 
-    SimulatedAnnealingAlgorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, Group[] argGroups) {
+    SimulatedAnnealingAlgorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, Group[] argGroups, int maxDist) {
         super(argMinTableSize, argMaxTableSize, argMaxTableNum, argGroups.length, argGroups);
+
+        this.largestJump = maxDist;
 
         bestSolution = new Chromosome(maxTableNum, groupNo, this);
         bestSolution.randomize();
     }
-
 
     boolean acceptNewSolution(int currentFitness, int newFitness, double temperature){
 
@@ -40,7 +39,6 @@ public class SimulatedAnnealingAlgorithm  extends Algorithm{
 
         return false;
     }
-
 
     public void start(double temperature, double coolingRate) {
 
@@ -70,7 +68,6 @@ public class SimulatedAnnealingAlgorithm  extends Algorithm{
             //Reduce Temerature
             temperature *= 1 - coolingRate;
         }
-
     }
 
     public void printFinalSolution(long algTotalTime) {
