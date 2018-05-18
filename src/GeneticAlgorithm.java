@@ -1,5 +1,6 @@
 public class GeneticAlgorithm extends Algorithm{
 	public Generation currGen;
+	public Chromosome bestChromo;
 
 	public GeneticAlgorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, int argGroupNo, int argGenSize, Group[] argGroups) {
 		super(argMinTableSize,argMaxTableSize,argMaxTableNum,argGroupNo,argGroups);
@@ -16,9 +17,12 @@ public class GeneticAlgorithm extends Algorithm{
 		do {
 			generations++;
 			score = currGen.getTotalFitness();
-			 System.out.println("Generation " + generations + ": (TF=" + score + "|AF=" +
-			 currGen.getAvgFitness() + "|BCF=" + currGen.bestChromo.getFitness() + ")");
-			 currGen = currGen.generateNewGen();
+			if(bestChromo == null || bestChromo.getFitness() < currGen.bestChromo.getFitness()){
+				bestChromo = currGen.bestChromo;
+			}
+			System.out.println("Generation " + generations + ": (TF=" + score + "|AF=" +
+								currGen.getAvgFitness() + "|BCF=" + currGen.bestChromo.getFitness() + ")");
+			currGen = currGen.generateNewGen();
 		} while ((score < threshold || threshold == -1) && (maxGens > generations || maxGens == -1));
 	}
 
@@ -31,6 +35,6 @@ public class GeneticAlgorithm extends Algorithm{
 		System.out.println("Code runtime - " + s + "." + ms + " seconds");
 
 		currGen.getTotalFitness();
-		System.out.println(printChromosomeInfo(currGen.bestChromo));
+		System.out.println(printChromosomeInfo(bestChromo));
 	}
 }
