@@ -26,9 +26,7 @@ public class Chromosome {
 		this.fitness=oldChromosome.fitness;
 
 		this.seats= new int [oldChromosome.seats.length];
-		for(int i=0;i<oldChromosome.seats.length; i++){
-			this.seats[i]=oldChromosome.seats[i];
-		}
+		System.arraycopy(oldChromosome.seats, 0, this.seats, 0, oldChromosome.seats.length);
 	}
 
 	public Chromosome(int maxTableNum, int groupNo, Algorithm alg) {

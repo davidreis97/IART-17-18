@@ -49,6 +49,8 @@ public class SimulatedAnnealingAlgorithm  extends Algorithm{
         while(temperature>1){
 
             //Get New Possible Solution from Neighbourhood
+            Random r = new Random();
+            this.largestJump=r.nextInt(1000);
             Chromosome newSolution = currentSolution.getNeighbour();
 
             //Get Fitness of both solutions

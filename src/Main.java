@@ -90,7 +90,6 @@ public class Main {
 		System.out.println("Cooling Rate: ");
 		double coolingRate = keyboard.nextDouble();
 
-		rgg = RandomGroupGenerator.load("groups.ser");
 		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups);
 
 		long saaAlgStartTime = System.currentTimeMillis();
