@@ -56,7 +56,7 @@ public class SimulatedAnnealingAlgorithm  extends Algorithm{
             //Check If We Accept The New Solution
             if(acceptNewSolution(currentFitness, newFitness, temperature)){
                 currentSolution=newSolution;
-                System.out.println(currentFitness);
+                //System.out.println(currentFitness);
             }
 
             //Save the best Solution
