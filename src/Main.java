@@ -90,7 +90,7 @@ public class Main {
 		int maxTableNum = keyboard.nextInt();
 		System.out.println("Starting temperature (Suggested 100000): ");
 		double startingTemperature = keyboard.nextDouble();
-		System.out.println("Cooling Rate (Suggested 0.003): ");
+		System.out.println("Cooling Rate (Suggested 0,003): ");
 		double coolingRate = keyboard.nextDouble();
         System.out.println("Maximum distance to neighbour");
         int maxDist = keyboard.nextInt();

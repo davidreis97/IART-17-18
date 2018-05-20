@@ -34,9 +34,7 @@ public class Chromosome {
 		this.fitness=oldChromosome.fitness;
 
 		this.seats= new int [oldChromosome.seats.length];
-		for(int i=0;i<oldChromosome.seats.length; i++){
-			this.seats[i]=oldChromosome.seats[i];
-		}
+		System.arraycopy(oldChromosome.seats, 0, this.seats, 0, oldChromosome.seats.length);
 	}
 
 	public Chromosome(int maxTableNum, int groupNo, Algorithm alg) {
@@ -49,11 +47,13 @@ public class Chromosome {
 	}
 
 	public void randomize() {
-		for (int i = 0; i < seats.length; i++) {
-			seats[i] = (int) (Math.random() * (maxTableNum));
-		}
-
-		this.calculateFitness();
+		int nTries=100000;
+		do {
+			for (int i = 0; i < seats.length; i++) {
+				seats[i] = (int) (Math.random() * (maxTableNum));
+			}
+			nTries--;
+		}while (!CheckifValid() && nTries>0);
 	}
 
 	public void randomizeValid(){
@@ -143,13 +143,39 @@ public class Chromosome {
 
         int moves = (int) ((Math.random() * (alg.largestJump-1)) + 1);
 
-        for(;moves > 0;moves--){
-            int movingGroup = (int) (Math.random() * seats.length);
-            neighbour.seats[movingGroup] = (int) (Math.random() * (maxTableNum));
-        }
+		for(;moves > 0;moves--){
+			int movingGroup = (int) (Math.random() * seats.length);
+			int table= (int) (Math.random() * (maxTableNum));
+
+			int noPeople=0;
+			for(int i=0; i<neighbour.seats.length; i++){
+				if(neighbour.seats[i]==table){
+					noPeople+=alg.groups[i].numOfPeople;
+				}
+			}
+			if( (noPeople+alg.groups[movingGroup].numOfPeople) >alg.maxTableSize){
+				continue;
+			}
+			neighbour.seats[movingGroup] = table;
+		}
+
 
         neighbour.calculateFitness();
 
         return neighbour;
     }
+
+
+    boolean CheckifValid(){
+		int tableSize[] = new int[maxTableNum];
+		for (int i = 0; i < seats.length; i++) {
+			tableSize[seats[i]] += alg.groups[i].numOfPeople;
+		}
+		for(int i=0 ;i<tableSize.length; i++){
+			if(tableSize[i]<alg.minTableSize || tableSize[i]>alg.maxTableSize){
+				return false;
+			}
+		}
+		return true;
+	}
 }
