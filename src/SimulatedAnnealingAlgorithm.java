@@ -47,7 +47,7 @@ public class SimulatedAnnealingAlgorithm  extends Algorithm{
         while(temperature>1){
 
             //Get New Possible Solution from Neighbourhood
-            Chromosome newSolution = currentSolution.getNeighbour();
+            Chromosome newSolution = currentSolution.getValidNeighbour();
 
             //Get Fitness of both solutions
             int currentFitness = currentSolution.getFitness();
@@ -56,6 +56,7 @@ public class SimulatedAnnealingAlgorithm  extends Algorithm{
             //Check If We Accept The New Solution
             if(acceptNewSolution(currentFitness, newFitness, temperature)){
                 currentSolution=newSolution;
+                System.out.println(currentFitness);
             }
 
             //Save the best Solution

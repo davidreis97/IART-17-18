@@ -75,6 +75,9 @@ public class Main {
 			hillClimbing(keyboard);
 		}else if(choice == 3){
 			simulAnneal(keyboard);
+		}else{
+			chooseAlgorithm(keyboard);
+			return;
 		}
 	}
 
@@ -92,7 +95,6 @@ public class Main {
         System.out.println("Maximum distance to neighbour");
         int maxDist = keyboard.nextInt();
 
-		rgg = RandomGroupGenerator.load("groups.ser");
 		SimulatedAnnealingAlgorithm saa = new SimulatedAnnealingAlgorithm(minTableSize, maxTableSize, maxTableNum, rgg.groups, maxDist);
 
 		long saaAlgStartTime = System.currentTimeMillis();

@@ -20,10 +20,14 @@ public class GeneticAlgorithm extends Algorithm{
 			if(bestChromo == null || bestChromo.getFitness() < currGen.bestChromo.getFitness()){
 				bestChromo = currGen.bestChromo;
 			}
+			if(currGen.getAvgFitness()/currGen.bestChromo.getFitness() > 0.95){
+				System.out.println("Solution converged earlier than expected");
+				break;
+			}
 			System.out.println("Generation " + generations + ": (TF=" + score + "|AF=" +
 								currGen.getAvgFitness() + "|BCF=" + currGen.bestChromo.getFitness() + ")");
 			currGen = currGen.generateNewGen();
-		} while ((score < threshold || threshold == -1) && (maxGens > generations || maxGens == -1));
+		} while ((bestChromo.getFitness() < threshold || threshold == -1) && (maxGens > generations || maxGens == -1));
 	}
 
 	public void printFinalSolution(long genAlgTotalTime) {

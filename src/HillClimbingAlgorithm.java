@@ -1,5 +1,5 @@
 public class HillClimbingAlgorithm extends Algorithm {
-    public Chromosome currentSolution;
+    private Chromosome currentSolution;
 
 	public HillClimbingAlgorithm(int argMinTableSize, int argMaxTableSize, int argMaxTableNum, Group[] argGroups, int largestJump) {
 		super(argMinTableSize, argMaxTableSize, argMaxTableNum, argGroups.length, argGroups);

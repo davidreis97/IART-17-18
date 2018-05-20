@@ -1,6 +1,5 @@
 public class Generation {
-
-	public Chromosome[] chromosomes;
+    public Chromosome[] chromosomes;
 
 	private int minTableSize;
 	private int maxTableSize;
@@ -69,6 +68,9 @@ public class Generation {
 
 			newGen.chromosomes[i] = son1;
 			newGen.chromosomes[i + 1] = son2;
+
+			son1.calculateFitness();
+			son2.calculateFitness();
 		}
 
 		if (newGen.chromosomes.length != genSize) {
@@ -83,14 +85,9 @@ public class Generation {
 		Chromosome newChromo = new Chromosome(maxTableNum, groupNo, genAlg);
 
 		long bitmask = (long) (Math.random() * Math.pow(2, father1.getSeats().length)); // UX-Crossover
-		int mutationPos = -1;
-
-		if (Math.random() < 0.1) { // Mutation
-			mutationPos = (int) (Math.random() * (father1.getSeats().length - 1));
-		}
 
 		for (int i = 0; i < father1.getSeats().length; i++) {
-			if (mutationPos == i) {
+			if (Math.random() < 0.001) {
 				newChromo.getSeats()[i] = (int) (Math.random() * maxTableNum);
 			} else {
 				if (getBit(bitmask, i) == 0) {
